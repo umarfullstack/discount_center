@@ -415,6 +415,29 @@
 
     // ---- Add to cart ----
     document.getElementById('add-to-cart').addEventListener('click', function() {
+      if (!product) return;
+
+      const cart = getCart();
+      const existing = cart.find(i =>
+        i.productId === product.id &&
+        (i.color || '') === (selectedColor || '') &&
+        (i.size || '') === (selectedSize || '')
+      );
+
+      if (existing) {
+        existing.qty += quantity;
+      } else {
+        cart.push({
+          productId: product.id,
+          color: selectedColor || '',
+          size: selectedSize || '',
+          qty: quantity,
+        });
+      }
+
+      saveCart(cart);
+      updateAllCartCounts();
+
       this.textContent = 'Savatga qo\'shildi!';
       this.className = 'flex-1 flex items-center justify-center gap-2.5 py-4 tracking-widest uppercase bg-[#C9A96E] text-white transition-all duration-300 text-[11px] font-semibold';
       setTimeout(() => {
