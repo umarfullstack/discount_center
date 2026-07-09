@@ -92,7 +92,7 @@ function renderProductCard(p) {
     <div class="product-card group relative flex flex-col">
       <div class="relative overflow-hidden bg-[#F5F5F3] aspect-[3/4]">
         <a href="product.html?id=${p.id}">
-          <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+          <img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
         </a>
         <div class="absolute top-3 left-3 flex flex-col gap-2">${badge}</div>
         <button class="wishlist-btn absolute top-3 right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm transition-all duration-200" onclick="toggleWishlist(this,'${p.id}')">
@@ -145,17 +145,34 @@ function toggleWishlist(btn, productId) {
 }
 
 // ---- API dan mahsulotlarni yuklash ----
+// Kesh: avvalgi muvaffaqiyatli javob localStorage'da saqlanadi va darhol
+// ko'rsatiladi (stale-while-revalidate) — API sekin uyg'onganda ham sahifa bo'sh qolmaydi.
+const PRODUCTS_CACHE_KEY = 'nh_products_cache';
+
 async function loadProductsFromAPI(filterFn) {
-  try {
-    const products = await apiProducts.getAll();
-    products.forEach(p => { _productCache[p.id] = p; });
-    return filterFn ? products.filter(filterFn) : products;
-  } catch (e) {
-    console.error('API xatosi:', e.message);
-    const products = getFallbackProducts();
-    products.forEach(p => { _productCache[p.id] = p; });
-    return filterFn ? products.filter(filterFn) : products;
+  const refresh = apiProducts.getAll().then(list => {
+    try { localStorage.setItem(PRODUCTS_CACHE_KEY, JSON.stringify(list)); } catch (e) {}
+    return list;
+  });
+
+  let products;
+  let cached = null;
+  try { cached = JSON.parse(localStorage.getItem(PRODUCTS_CACHE_KEY) || 'null'); } catch (e) {}
+
+  if (Array.isArray(cached) && cached.length) {
+    refresh.catch(() => {});
+    products = cached;
+  } else {
+    try {
+      products = await refresh;
+    } catch (e) {
+      console.error('API xatosi:', e.message);
+      products = getFallbackProducts();
+    }
   }
+
+  products.forEach(p => { _productCache[p.id] = p; });
+  return filterFn ? products.filter(filterFn) : products;
 }
 
 // Run on DOM ready to set initial cart count

@@ -15,15 +15,10 @@
   <meta property="og:description" content="Erkaklar uchun ko'ylaklar, kurtkalar, shimlar va aksessuarlar chegirmali narxlarda." />
   <meta property="og:url" content="https://discountcenter.uz/category.html" />
   <meta property="og:locale" content="uz_UZ" />
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/tailwind.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      theme: { extend: { fontFamily: { cormorant: ["'Cormorant Garamond'", "serif"] } } }
-    }
-  </script>
   <style>
     .font-cormorant { font-family: 'Cormorant Garamond', serif; }
     .quick-add { transform: translateY(100%); opacity: 0; transition: all 0.3s; }
@@ -81,7 +76,7 @@
   <!-- Category Banner -->
   <div class="relative pt-16 lg:pt-20">
     <div class="relative h-64 lg:h-80 overflow-hidden">
-      <img id="banner-img" src="https://images.unsplash.com/photo-1775036422790-ebdcede0ebef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200" alt="Category" class="w-full h-full object-cover object-center" />
+      <img id="banner-img" fetchpriority="high" src="https://images.unsplash.com/photo-1775036422790-ebdcede0ebef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200" alt="Category" class="w-full h-full object-cover object-center" />
       <div class="absolute inset-0 bg-gradient-to-r from-black/65 to-black/30"></div>
       <div class="absolute inset-0 flex items-center">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 w-full">
@@ -97,85 +92,12 @@
     </div>
   </div>
 
-  <!-- Filters + Grid -->
+  <!-- Grid -->
   <div class="max-w-7xl mx-auto px-6 lg:px-8 py-10">
-    <!-- Filter Bar -->
-    <div class="flex flex-wrap items-center gap-3 pb-6 border-b border-gray-100 mb-8">
-      <!-- Mobile filter toggle -->
-      <button id="filter-toggle" class="lg:hidden flex items-center gap-2 border border-gray-200 px-4 py-2 hover:border-[#1A1A1A] transition-colors text-[11px] font-semibold tracking-[0.1em]">
-        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="1" x2="7" y1="14" y2="14"/><line x1="9" x2="15" y1="8" y2="8"/><line x1="17" x2="23" y1="16" y2="16"/></svg>
-        Filtrlar
-      </button>
-
-      <!-- Desktop Filters -->
-      <div class="hidden lg:flex items-center gap-4 flex-1 flex-wrap">
-        <!-- Sizes -->
-        <div class="flex items-center gap-2">
-          <span class="text-[#6B6B6B] tracking-widest uppercase mr-1 text-[10px] font-semibold">O'lcham:</span>
-          <div id="size-filters" class="flex items-center gap-2"></div>
-        </div>
-        <div class="w-px h-6 bg-gray-200"></div>
-        <!-- Colors -->
-        <div class="flex items-center gap-2">
-          <span class="text-[#6B6B6B] tracking-widest uppercase mr-1 text-[10px] font-semibold">Rang:</span>
-          <div id="color-filters" class="flex items-center gap-2"></div>
-        </div>
-        <div class="w-px h-6 bg-gray-200"></div>
-        <!-- Price -->
-        <div class="flex items-center gap-3">
-          <span class="text-[#6B6B6B] tracking-widest uppercase text-[10px] font-semibold">Narx:</span>
-          <input type="range" id="price-range" min="200000" max="4000000" step="50000" value="4000000" class="w-28 accent-[#C9A96E]" />
-          <span id="price-label" class="text-[#1A1A1A] whitespace-nowrap text-[11px] font-medium"></span>
-        </div>
-        <!-- Clear -->
-        <button id="clear-filters" class="hidden items-center gap-1.5 text-[#C9A96E] hover:text-[#B8934A] transition-colors ml-2 text-[11px] font-medium">
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
-          Tozalash
-        </button>
-      </div>
-
-      <!-- Sort + Grid toggle -->
-      <div class="flex items-center gap-4 ml-auto">
-        <div class="relative">
-          <select id="sort-select" class="appearance-none border border-gray-200 px-4 py-2 pr-8 bg-white text-[#1A1A1A] cursor-pointer hover:border-[#1A1A1A] transition-colors outline-none text-[11px] font-medium">
-            <option>Yangilar</option>
-            <option>Narx: Pastdan Yuqoriga</option>
-            <option>Narx: Yuqoridan Pastga</option>
-            <option>Eng Yaxshi Baholangan</option>
-          </select>
-          <svg class="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-        </div>
-        <div class="hidden lg:flex items-center gap-1 border border-gray-200">
-          <button id="grid-3" class="p-2 transition-colors bg-[#1A1A1A] text-white">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
-          </button>
-          <button id="grid-4" class="p-2 transition-colors text-gray-400 hover:text-[#1A1A1A]">
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="10" y="3" rx="1"/><rect width="5" height="5" x="17" y="3" rx="1"/><rect width="5" height="5" x="3" y="10" rx="1"/><rect width="5" height="5" x="10" y="10" rx="1"/><rect width="5" height="5" x="17" y="10" rx="1"/><rect width="5" height="5" x="3" y="17" rx="1"/><rect width="5" height="5" x="10" y="17" rx="1"/><rect width="5" height="5" x="17" y="17" rx="1"/></svg>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Mobile Filter Panel -->
-    <div id="mobile-filters" class="hidden lg:hidden bg-[#F9F9F7] border border-gray-100 rounded p-5 mb-6">
-      <div class="mb-5">
-        <p class="tracking-widest uppercase mb-3 text-[#1A1A1A] text-[10px] font-semibold">O'lcham</p>
-        <div id="mobile-size-filters" class="flex flex-wrap gap-2"></div>
-      </div>
-      <div class="mb-5">
-        <p class="tracking-widest uppercase mb-3 text-[#1A1A1A] text-[10px] font-semibold">Rang</p>
-        <div id="mobile-color-filters" class="flex gap-3"></div>
-      </div>
-      <div>
-        <p class="tracking-widest uppercase mb-3 text-[#1A1A1A] text-[10px] font-semibold">Max Narx: <span id="mobile-price-label"></span> UZS</p>
-        <input type="range" id="mobile-price-range" min="200000" max="4000000" step="50000" value="4000000" class="w-full accent-[#C9A96E]" />
-      </div>
-    </div>
-
     <!-- Products Grid -->
     <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-10"></div>
     <div id="no-products" class="hidden text-center py-24">
-      <p class="text-[#6B6B6B] text-sm">Mahsulot topilmadi. Filtrlarni o'zgartirib ko'ring.</p>
+      <p class="text-[#6B6B6B] text-sm">Mahsulot topilmadi.</p>
     </div>
 
     <!-- Pagination -->
@@ -236,21 +158,8 @@
     // ---- State ----
     const params = new URLSearchParams(window.location.search);
     const cat = params.get('cat') || '';
-    let selectedSizes = [];
-    let selectedColors = [];
-    let priceMax = 4000000;
-    let sortBy = 'Yangilar';
-    let gridCols = 3;
     let allProducts = [];
 
-    const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
-    const colorOptions = [
-      { label: "Black", value: "#1A1A1A" },
-      { label: "White", value: "#FFFFFF" },
-      { label: "Navy", value: "#1B2D4F" },
-      { label: "Gray", value: "#8B8B8B" },
-      { label: "Camel", value: "#C9A96E" },
-    ];
     const banners = {
       '': { title: 'Barcha Kolleksiyalar', desc: "To'liq kolleksiyamizni ko'ring", img: 'https://images.unsplash.com/photo-1775036422790-ebdcede0ebef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200' },
       'shirts': { title: "Ko'ylaklar", desc: 'Har qanday munosabat uchun nafis ko\'ylaklar', img: 'https://images.unsplash.com/photo-1760128761565-c0d779481070?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1200' },
@@ -264,119 +173,6 @@
     document.getElementById('banner-img').src = b.img;
     document.getElementById('banner-title').textContent = b.title;
     document.getElementById('breadcrumb-cat').textContent = b.title;
-
-    // ---- Build filters ----
-    function buildSizeButtons(containerId) {
-      const el = document.getElementById(containerId);
-      el.innerHTML = sizes.map(s => `
-        <button data-size="${s}" onclick="toggleSize('${s}')" class="size-btn w-8 h-8 border text-xs font-medium transition-all ${selectedSizes.includes(s) ? 'bg-[#1A1A1A] text-white border-[#1A1A1A]' : 'border-gray-200 text-[#1A1A1A] hover:border-[#1A1A1A]'}">${s}</button>
-      `).join('');
-    }
-
-    function buildColorButtons(containerId) {
-      const el = document.getElementById(containerId);
-      el.innerHTML = colorOptions.map(c => `
-        <button data-color="${c.value}" title="${c.label}" onclick="toggleColor('${c.value}')" class="color-btn w-5 h-5 rounded-full border-2 transition-all ${selectedColors.includes(c.value) ? 'border-[#C9A96E] scale-110' : 'border-transparent hover:border-gray-300'}" style="background-color:${c.value}; ${c.value === '#FFFFFF' ? 'outline: 1px solid #e0e0e0;' : ''}"></button>
-      `).join('');
-    }
-
-    buildSizeButtons('size-filters');
-    buildColorButtons('color-filters');
-    buildSizeButtons('mobile-size-filters');
-    buildColorButtons('mobile-color-filters');
-
-    // ---- Price range ----
-    function updatePriceLabel() {
-      document.getElementById('price-label').textContent = 'Gacha: ' + new Intl.NumberFormat('uz-UZ').format(priceMax) + ' UZS';
-      document.getElementById('mobile-price-label').textContent = new Intl.NumberFormat('uz-UZ').format(priceMax);
-    }
-    updatePriceLabel();
-
-    document.getElementById('price-range').addEventListener('input', e => {
-      priceMax = Number(e.target.value);
-      document.getElementById('mobile-price-range').value = priceMax;
-      updatePriceLabel();
-      renderProducts();
-    });
-    document.getElementById('mobile-price-range').addEventListener('input', e => {
-      priceMax = Number(e.target.value);
-      document.getElementById('price-range').value = priceMax;
-      updatePriceLabel();
-      renderProducts();
-    });
-
-    // ---- Toggles ----
-    function toggleSize(s) {
-      if (selectedSizes.includes(s)) {
-        selectedSizes = selectedSizes.filter(x => x !== s);
-      } else {
-        selectedSizes.push(s);
-      }
-      buildSizeButtons('size-filters');
-      buildSizeButtons('mobile-size-filters');
-      updateClearBtn();
-      renderProducts();
-    }
-
-    function toggleColor(c) {
-      if (selectedColors.includes(c)) {
-        selectedColors = selectedColors.filter(x => x !== c);
-      } else {
-        selectedColors.push(c);
-      }
-      buildColorButtons('color-filters');
-      buildColorButtons('mobile-color-filters');
-      updateClearBtn();
-      renderProducts();
-    }
-
-    function updateClearBtn() {
-      const btn = document.getElementById('clear-filters');
-      if (selectedSizes.length > 0 || selectedColors.length > 0) {
-        btn.classList.remove('hidden');
-        btn.classList.add('flex');
-      } else {
-        btn.classList.add('hidden');
-        btn.classList.remove('flex');
-      }
-    }
-
-    document.getElementById('clear-filters').addEventListener('click', () => {
-      selectedSizes = [];
-      selectedColors = [];
-      buildSizeButtons('size-filters');
-      buildColorButtons('color-filters');
-      buildSizeButtons('mobile-size-filters');
-      buildColorButtons('mobile-color-filters');
-      updateClearBtn();
-      renderProducts();
-    });
-
-    // ---- Sort ----
-    document.getElementById('sort-select').addEventListener('change', e => {
-      sortBy = e.target.value;
-      renderProducts();
-    });
-
-    // ---- Grid toggle ----
-    document.getElementById('grid-3').addEventListener('click', () => {
-      gridCols = 3;
-      document.getElementById('grid-3').className = 'p-2 transition-colors bg-[#1A1A1A] text-white';
-      document.getElementById('grid-4').className = 'p-2 transition-colors text-gray-400 hover:text-[#1A1A1A]';
-      renderProducts();
-    });
-    document.getElementById('grid-4').addEventListener('click', () => {
-      gridCols = 4;
-      document.getElementById('grid-4').className = 'p-2 transition-colors bg-[#1A1A1A] text-white';
-      document.getElementById('grid-3').className = 'p-2 transition-colors text-gray-400 hover:text-[#1A1A1A]';
-      renderProducts();
-    });
-
-    // ---- Filter panel toggle ----
-    document.getElementById('filter-toggle').addEventListener('click', () => {
-      const panel = document.getElementById('mobile-filters');
-      panel.classList.toggle('hidden');
-    });
 
     // ---- Mobile menu ----
     const toggle = document.getElementById('mobile-toggle');
@@ -397,10 +193,6 @@
       if (cat && cat !== 'new-arrivals') {
         list = list.filter(p => categorySlug(p.category) === cat);
       }
-      list = list.filter(p => p.price <= priceMax);
-      if (sortBy === 'Narx: Pastdan Yuqoriga') list.sort((a, b) => a.price - b.price);
-      if (sortBy === 'Narx: Yuqoridan Pastga') list.sort((a, b) => b.price - a.price);
-      if (sortBy === 'Eng Yaxshi Baholangan') list.sort((a, b) => b.rating - a.rating);
       return list;
     }
 
@@ -408,11 +200,6 @@
       const list = getFilteredProducts();
       const grid = document.getElementById('products-grid');
       const noProducts = document.getElementById('no-products');
-
-      const gridClass = gridCols === 4
-        ? 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-5 gap-y-10'
-        : 'grid grid-cols-2 md:grid-cols-3 gap-x-5 gap-y-10';
-      grid.className = gridClass;
 
       if (list.length === 0) {
         grid.innerHTML = '';

@@ -46,19 +46,11 @@
     ]
   }
   </script>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/tailwind.css" />
+  <link rel="preload" as="image" href="images/hero.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { cormorant: ["'Cormorant Garamond'", "serif"] }
-        }
-      }
-    }
-  </script>
   <style>
     .font-cormorant { font-family: 'Cormorant Garamond', serif; }
     .group:hover .group-hover-scale { transform: scale(1.05); }
@@ -127,6 +119,7 @@
   <section class="relative overflow-hidden" style="height:100vh; min-height:600px; max-height:900px;">
     <img
       src="images/hero.jpg"
+      fetchpriority="high"
       alt="Hero"
       class="w-full h-full object-cover object-center"
     />
@@ -187,7 +180,7 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
         <!-- Collection Card 1 -->
         <a href="category.html" class="collection-card group relative overflow-hidden aspect-[3/4] block">
-          <img src="https://images.unsplash.com/photo-1775036422790-ebdcede0ebef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Yangi Kelganlar" class="hero-img w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1775036422790-ebdcede0ebef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Yangi Kelganlar" loading="lazy" decoding="async" class="hero-img w-full h-full object-cover" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
           <div class="absolute bottom-0 left-0 right-0 p-5">
             <p class="text-[#C9A96E] tracking-[0.3em] uppercase mb-1 text-[9px] font-semibold">Eng yangi mahsulotlar</p>
@@ -200,7 +193,7 @@
         </a>
         <!-- Collection Card 2 -->
         <a href="category.html?cat=shirts" class="collection-card group relative overflow-hidden aspect-[3/4] block">
-          <img src="https://images.unsplash.com/photo-1760128761565-c0d779481070?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Shirts" class="hero-img w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1760128761565-c0d779481070?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Shirts" loading="lazy" decoding="async" class="hero-img w-full h-full object-cover" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
           <div class="absolute bottom-0 left-0 right-0 p-5">
             <p class="text-[#C9A96E] tracking-[0.3em] uppercase mb-1 text-[9px] font-semibold">Nafis ko'ylaklar</p>
@@ -213,7 +206,7 @@
         </a>
         <!-- Collection Card 3 -->
         <a href="category.html?cat=jackets" class="collection-card group relative overflow-hidden aspect-[3/4] block">
-          <img src="https://images.unsplash.com/photo-1754485115876-9221149ccc19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Kurtkalar" class="hero-img w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1754485115876-9221149ccc19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Kurtkalar" loading="lazy" decoding="async" class="hero-img w-full h-full object-cover" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
           <div class="absolute bottom-0 left-0 right-0 p-5">
             <p class="text-[#C9A96E] tracking-[0.3em] uppercase mb-1 text-[9px] font-semibold">Ajoyib tashqi kiyimlar</p>
@@ -226,7 +219,7 @@
         </a>
         <!-- Collection Card 4 -->
         <a href="category.html?cat=trousers" class="collection-card group relative overflow-hidden aspect-[3/4] block">
-          <img src="https://images.unsplash.com/photo-1760433468572-44d1cf0b8641?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Shimlar" class="hero-img w-full h-full object-cover" />
+          <img src="https://images.unsplash.com/photo-1760433468572-44d1cf0b8641?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600" alt="Shimlar" loading="lazy" decoding="async" class="hero-img w-full h-full object-cover" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
           <div class="absolute bottom-0 left-0 right-0 p-5">
             <p class="text-[#C9A96E] tracking-[0.3em] uppercase mb-1 text-[9px] font-semibold">Mukammal tikuvchilik</p>
@@ -262,7 +255,7 @@
           </a>
         </div>
         <div class="relative">
-          <img src="https://images.unsplash.com/photo-1589270216117-7972b3082c7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800" alt="Style editorial" class="w-full object-cover aspect-[4/5]" />
+          <img src="https://images.unsplash.com/photo-1589270216117-7972b3082c7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=800" alt="Style editorial" loading="lazy" decoding="async" class="w-full object-cover aspect-[4/5]" />
           <div class="absolute -bottom-5 -left-5 hidden lg:block bg-white p-5 shadow-lg">
             <p class="text-[#C9A96E] tracking-widest uppercase mb-1 text-[9px] font-semibold">Tashkil topgan</p>
             <p class="font-cormorant text-[#1A1A1A] font-normal text-[32px]">2018</p>
