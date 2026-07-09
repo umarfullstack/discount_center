@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  products Product[]
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  price         Float
+  originalPrice Float?
+  image         String
+  rating        Float    @default(4.5)
+  reviewCount   Int      @default(0)
+  isNew         Boolean  @default(false)
+  isSale        Boolean  @default(false)
+  colors        String[]
+  stock         Int      @default(0)
+  status        String   @default("active")
+  categoryId    String
+  category      Category @relation(fields: [categoryId], references: [id])
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Order {
+  id         String      @id @default(cuid())
+  customer   String
+  email      String?
+  phone      String
+  address    String
+  items      Json
+  total      Float
+  promoCode  String?
+  status     String      @default("pending")
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Settings {
+  id                    String  @id @default("singleton")
+  storeName             String  @default("Novus Homme")
+  storeTagline          String  @default("HOMME")
+  email                 String  @default("")
+  phone                 String  @default("")
+  address               String  @default("")
+  currency              String  @default("UZS")
+  lang                  String  @default("uz")
+  freeShippingThreshold Float   @default(500000)
+  shippingCost          Float   @default(50000)
+}
+
+model Promo {
+  id        String    @id @default(cuid())
+  code      String    @unique
+  type      String
+  discount  Float
+  minOrder  Float      @default(0)
+  maxUses   Int        @default(0)
+  usedCount Int        @default(0)
+  active    Boolean    @default(true)
+  expires   DateTime?
+  createdAt DateTime   @default(now())
+}

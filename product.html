@@ -489,10 +489,16 @@
     ]).then(([p, all]) => {
       allProducts = all;
       all.forEach(x => { _productCache[x.id] = x; });
-      const prod = p || all[0];
-      if (prod) {
-        initProduct(prod);
+      if (p) {
+        initProduct(p);
         renderRelated();
+      } else {
+        document.body.innerHTML = `
+          <div class="max-w-xl mx-auto px-6 pt-40 pb-32 text-center">
+            <p class="font-cormorant text-3xl mb-4">Mahsulot topilmadi</p>
+            <p class="text-[#6B6B6B] text-sm mb-8">Bu mahsulot o'chirilgan yoki havola noto'g'ri bo'lishi mumkin.</p>
+            <a href="index.html" class="inline-block bg-[#1A1A1A] text-white px-8 py-3 text-xs font-semibold tracking-widest uppercase">Bosh sahifaga qaytish</a>
+          </div>`;
       }
     });
 
