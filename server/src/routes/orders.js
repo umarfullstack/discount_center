@@ -1,6 +1,7 @@
 const express = require('express');
 const prisma = require('../db');
 const { requireAuth } = require('../middleware/auth');
+const { notifyNewOrder } = require('../telegram');
 
 const router = express.Router();
 
@@ -61,6 +62,8 @@ router.post('/', async (req, res) => {
   for (const item of items) {
     await prisma.product.update({ where: { id: item.productId }, data: { stock: { decrement: item.qty } } });
   }
+
+  notifyNewOrder(order, productMap);
 
   res.status(201).json(order);
 });
