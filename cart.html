@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< HEAD
   <title>Savat — Discount Center</title>
-=======
-  <title>Savat — Novus Homme</title>
-  <meta name="description" content="Xarid savatingiz — Novus Homme onlayn do'koni." />
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
+  <meta name="description" content="Xarid savatingiz — Discount Center onlayn do'koni." />
   <meta name="robots" content="noindex, follow" />
->>>>>>> 4bc7e05917d33c07c42407a2554bfcd33da0965e
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -49,7 +47,7 @@
         </a>
         <a href="cart.html" class="relative text-[#C9A96E]">
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" x2="21" y1="6" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-          <span id="cart-count-header" class="absolute -top-1.5 -right-1.5 bg-[#C9A96E] text-white rounded-full w-4 h-4 flex items-center justify-center text-[9px] font-semibold">0</span>
+          <span id="cart-count-header" class="cart-badge absolute -top-1.5 -right-1.5 bg-[#C9A96E] text-white rounded-full w-4 h-4 flex items-center justify-center text-[9px] font-semibold">0</span>
         </a>
         <button id="mobile-toggle" class="lg:hidden text-white ml-1">
           <svg id="icon-menu" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
@@ -477,6 +475,14 @@
     render();
   }
 
+  // "Sizga yoqishi mumkin" dan qo'shilganda savat ro'yxatini ham yangilaymiz
+  const baseQuickAdd = quickAdd;
+  quickAdd = function(btn, productId){
+    baseQuickAdd(btn, productId);
+    cart = getCart();
+    render();
+  };
+
   async function applyPromo(){
     const val=document.getElementById('promo-input').value.trim().toUpperCase();
     const msg=document.getElementById('promo-msg');
@@ -558,10 +564,6 @@
     const name    = document.getElementById('co-name').value.trim();
     const surname = document.getElementById('co-surname').value.trim();
     const phone   = document.getElementById('co-phone').value.trim();
-<<<<<<< HEAD
-    const email   = phone + '@discountcenter.uz';
-=======
->>>>>>> c69d7d428ea51534d02c27f6f39c98093b26c098
     const address = document.getElementById('co-address').value.trim();
     const errEl   = document.getElementById('co-error');
     const btn     = document.getElementById('co-submit');

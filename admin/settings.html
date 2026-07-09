@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sozlamalar | Discount Center Admin</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png" />
+  <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <script>tailwind.config={theme:{extend:{fontFamily:{cormorant:["'Cormorant Garamond'","serif"]}}}}</script>
@@ -184,31 +186,6 @@
   <script>
     requireAuth();
 
-<<<<<<< HEAD
-    function loadSettings() {
-      const s = getSettings();
-      document.getElementById('store-name').value = s.storeName || 'Discount Center';
-      document.getElementById('store-tagline').value = s.storeTagline || 'Discount Center';
-      document.getElementById('store-email').value = s.email || '';
-      document.getElementById('store-phone').value = s.phone || '';
-      document.getElementById('store-address').value = s.address || '';
-      document.getElementById('shipping-cost').value = s.shippingCost || 50000;
-      document.getElementById('free-shipping').value = s.freeShippingThreshold || 500000;
-      document.getElementById('currency').value = s.currency || 'UZS';
-      document.getElementById('lang').value = s.lang || 'uz';
-      calcStorageSize();
-    }
-
-    function saveStoreInfo() {
-      const s = getSettings();
-      s.storeName = document.getElementById('store-name').value.trim() || 'Discount Center';
-      s.storeTagline = document.getElementById('store-tagline').value.trim() || 'Discount Center';
-      s.email = document.getElementById('store-email').value.trim();
-      s.phone = document.getElementById('store-phone').value.trim();
-      s.address = document.getElementById('store-address').value.trim();
-      saveSettings(s);
-      toast("Do'kon ma'lumotlari saqlandi");
-=======
     let currentSettings = {};
 
     async function loadSettings() {
@@ -242,7 +219,6 @@
       } catch (err) {
         toast(err.message || 'Xato yuz berdi', 'error');
       }
->>>>>>> c69d7d428ea51534d02c27f6f39c98093b26c098
     }
 
     async function saveShipping() {
@@ -280,78 +256,6 @@
       if (!newPw || newPw.length < 6) { toast("Yangi parol kamida 6 belgidan iborat bo'lishi kerak", 'error'); return; }
       if (newPw !== confirm) { toast("Parollar mos kelmadi", 'error'); return; }
 
-<<<<<<< HEAD
-      s.adminPassword = newPw;
-      saveSettings(s);
-      document.getElementById('current-pw').value = '';
-      document.getElementById('new-pw').value = '';
-      document.getElementById('confirm-pw').value = '';
-      toast("Parol muvaffaqiyatli o'zgartirildi");
-    }
-
-    function exportData() {
-      const data = {
-        exportedAt: new Date().toISOString(),
-        version: '1.0.0',
-        products: getProducts(),
-        orders: getOrders(),
-        categories: getCategories(),
-        promos: getPromos(),
-        settings: (() => { const s = getSettings(); const copy = {...s}; delete copy.adminPassword; return copy; })()
-      };
-      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `discount-center-admin-export-${new Date().toISOString().slice(0,10)}.json`;
-      a.click();
-      URL.revokeObjectURL(url);
-      toast("Ma'lumotlar eksport qilindi");
-    }
-
-    function importData(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => {
-        try {
-          const data = JSON.parse(e.target.result);
-          confirmModal("Ma'lumotlarni import qilmoqchimisiz? Mavjud ma'lumotlar o'chiriladi.", () => {
-            if (data.products) localStorage.setItem('nh_products', JSON.stringify(data.products));
-            if (data.orders) localStorage.setItem('nh_orders', JSON.stringify(data.orders));
-            if (data.categories) localStorage.setItem('nh_categories', JSON.stringify(data.categories));
-            if (data.promos) localStorage.setItem('nh_promos', JSON.stringify(data.promos));
-            if (data.settings) {
-              const s = getSettings();
-              const imported = { ...s, ...data.settings };
-              saveSettings(imported);
-            }
-            toast("Ma'lumotlar import qilindi");
-            loadSettings();
-          });
-        } catch {
-          toast("Fayl noto'g'ri formatda", 'error');
-        }
-        event.target.value = '';
-      };
-      reader.readAsText(file);
-    }
-
-    function resetAllData() {
-      confirmModal("DIQQAT! Barcha mahsulot, buyurtma va sozlamalarni o'chirasiz. Bu amalni bekor qilib bo'lmaydi. Davom etasizmi?", () => {
-        ['nh_products', 'nh_orders', 'nh_categories', 'nh_promos', 'nh_settings'].forEach(k => localStorage.removeItem(k));
-        toast("Barcha ma'lumotlar tozalandi. Sahifa yangilanmoqda...");
-        setTimeout(() => window.location.reload(), 1500);
-      });
-    }
-
-    function calcStorageSize() {
-      let total = 0;
-      for (let k in localStorage) {
-        if (localStorage.hasOwnProperty(k)) {
-          total += (localStorage[k].length + k.length) * 2;
-        }
-=======
       try {
         await apiSettings.changePassword(current, newPw);
         document.getElementById('current-pw').value = '';
@@ -360,7 +264,6 @@
         toast("Parol muvaffaqiyatli o'zgartirildi");
       } catch (err) {
         toast(err.message || 'Xato yuz berdi', 'error');
->>>>>>> c69d7d428ea51534d02c27f6f39c98093b26c098
       }
     }
 

@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — Kirish | Discount Center</title>
+  <link rel="icon" type="image/png" href="../images/favicon.png" />
+  <link rel="apple-touch-icon" href="../images/apple-touch-icon.png" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <script>tailwind.config={theme:{extend:{fontFamily:{cormorant:["'Cormorant Garamond'","serif"]}}}}</script>
@@ -76,13 +78,6 @@
         await apiLogin(email, password);
         window.location.href = 'index.html';
       } catch(err) {
-        const settings = getSettings();
-        const knownAdmin = email === 'admin@discountcenter.uz' || email === 'admin@novushomme.uz';
-        if (knownAdmin && password === settings.adminPassword) {
-          sessionStorage.setItem('nh_admin_auth', '1');
-          window.location.href = 'index.html';
-          return;
-        }
         errEl.textContent = err.message || 'Email yoki parol noto\'g\'ri.';
         errEl.classList.remove('hidden');
       }

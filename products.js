@@ -41,11 +41,11 @@ function getFallbackProducts() {
 
 function addToCart(productId, productData) {
   const cart = getCart();
-  const existing = cart.find(i => i.productId === productId && !i.size && !i.color);
+  const color = productData?.colors?.[0] || '';
+  const existing = cart.find(i => i.productId === productId && !i.size && (i.color || '') === color);
   if (existing) {
     existing.qty++;
   } else {
-    const color = productData?.colors?.[0] || '';
     cart.push({ productId, color, size: '', qty: 1 });
   }
   saveCart(cart);
