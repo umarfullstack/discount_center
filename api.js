@@ -17,9 +17,10 @@ async function apiFetch(path, options = {}) {
 
 // ---- Auth ----
 async function apiLogin(email, password) {
+  const loginEmail = email === 'admin@discountcenter.uz' ? 'admin@novushomme.uz' : email;
   const data = await apiFetch('/auth/login', {
     method: 'POST',
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email: loginEmail, password }),
   });
   sessionStorage.setItem('nh_token', data.token);
   return data;

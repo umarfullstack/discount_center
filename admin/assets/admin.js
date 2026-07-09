@@ -1,5 +1,5 @@
 // ============================================================
-//  NOVUS HOMME — Admin Core
+//  Discount Center — Admin Core
 //  Shared state, storage helpers, and UI utilities
 // ============================================================
 
@@ -43,15 +43,15 @@ const DEFAULT_ORDERS = [
 ];
 
 const DEFAULT_PROMOS = [
-  { id:'p1', code:'NOVUS10', type:'percent', discount:10,    minOrder:0,       usedCount:34, maxUses:0,   active:true,  expires:null,         createdAt:'2026-01-01T00:00:00.000Z' },
+  { id:'p1', code:'DISCOUNT10', type:'percent', discount:10, minOrder:0,       usedCount:34, maxUses:0,   active:true,  expires:null,         createdAt:'2026-01-01T00:00:00.000Z' },
   { id:'p2', code:'YANGI20', type:'percent', discount:20,    minOrder:500000,  usedCount:12, maxUses:50,  active:true,  expires:'2026-06-01', createdAt:'2026-02-01T00:00:00.000Z' },
   { id:'p3', code:'BEPUL',   type:'fixed',   discount:50000, minOrder:300000,  usedCount:8,  maxUses:100, active:false, expires:'2026-05-31', createdAt:'2026-03-01T00:00:00.000Z' },
 ];
 
 const DEFAULT_SETTINGS = {
-  storeName: 'Novus Homme',
-  storeTagline: 'HOMME',
-  email: 'hello@novushomme.uz',
+  storeName: 'Discount Center',
+  storeTagline: 'Discount Center',
+  email: 'hello@discountcenter.uz',
   phone: '+998 90 123 45 67',
   address: 'Toshkent, O\'zbekiston',
   currency: 'UZS',
