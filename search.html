@@ -173,7 +173,6 @@
 <script src="products.js"></script>
 <script>
   // Cart count
-  function getCart(){return JSON.parse(localStorage.getItem('nh_cart')||'[]');}
   document.getElementById('cart-count').textContent = getCart().reduce((s,i)=>s+i.qty,0)||0;
 
   // Mobile menu

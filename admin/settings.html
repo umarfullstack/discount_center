@@ -157,39 +157,6 @@
         </div>
       </div>
 
-      <!-- Data Management -->
-      <div class="bg-white border border-gray-100 shadow-sm">
-        <div class="px-6 py-4 border-b border-gray-100">
-          <h2 class="text-xs font-semibold tracking-widest uppercase text-[#1A1A1A]">Ma'lumotlarni Boshqarish</h2>
-        </div>
-        <div class="p-6 space-y-4">
-          <div class="flex items-center justify-between py-3 border-b border-gray-50">
-            <div>
-              <p class="text-sm font-medium text-[#1A1A1A]">Ma'lumotlarni Eksport Qilish</p>
-              <p class="text-xs text-[#6B6B6B] mt-0.5">Barcha mahsulot, buyurtma va sozlamalarni JSON formatida yuklab olish</p>
-            </div>
-            <button onclick="exportData()" class="px-4 py-2 text-[11px] tracking-widest uppercase font-semibold border border-gray-200 text-[#6B6B6B] hover:border-gray-400 hover:text-[#1A1A1A] transition-colors">Eksport</button>
-          </div>
-          <div class="flex items-center justify-between py-3 border-b border-gray-50">
-            <div>
-              <p class="text-sm font-medium text-[#1A1A1A]">Ma'lumotlarni Import Qilish</p>
-              <p class="text-xs text-[#6B6B6B] mt-0.5">JSON fayldan ma'lumotlarni tiklash</p>
-            </div>
-            <label class="px-4 py-2 text-[11px] tracking-widest uppercase font-semibold border border-gray-200 text-[#6B6B6B] hover:border-gray-400 hover:text-[#1A1A1A] transition-colors cursor-pointer">
-              Import
-              <input type="file" accept=".json" class="hidden" onchange="importData(event)" />
-            </label>
-          </div>
-          <div class="flex items-center justify-between py-3">
-            <div>
-              <p class="text-sm font-medium text-red-600">Barcha Ma'lumotlarni Tozalash</p>
-              <p class="text-xs text-[#6B6B6B] mt-0.5">Barcha mahsulot, buyurtma va sozlamalarni o'chiradi. Bu amalni bekor qilib bo'lmaydi!</p>
-            </div>
-            <button onclick="resetAllData()" class="px-4 py-2 text-[11px] tracking-widest uppercase font-semibold border border-red-200 text-red-500 hover:border-red-400 hover:text-red-700 transition-colors">Tozalash</button>
-          </div>
-        </div>
-      </div>
-
       <!-- Info -->
       <div class="bg-white border border-gray-100 shadow-sm">
         <div class="px-6 py-4 border-b border-gray-100">
@@ -202,11 +169,9 @@
             <span class="text-[#6B6B6B] tracking-wide">Texnologiya</span>
             <span class="text-[#1A1A1A] font-medium">HTML + Tailwind + Vanilla JS</span>
             <span class="text-[#6B6B6B] tracking-wide">Saqlash</span>
-            <span class="text-[#1A1A1A] font-medium">localStorage (brauzer)</span>
+            <span class="text-[#1A1A1A] font-medium">PostgreSQL (server)</span>
             <span class="text-[#6B6B6B] tracking-wide">Autentifikatsiya</span>
-            <span class="text-[#1A1A1A] font-medium">sessionStorage</span>
-            <span class="text-[#6B6B6B] tracking-wide">LocalStorage hajmi</span>
-            <span id="storage-size" class="text-[#1A1A1A] font-medium">Hisoblanmoqda...</span>
+            <span class="text-[#1A1A1A] font-medium">JWT</span>
           </div>
         </div>
       </div>
@@ -219,6 +184,7 @@
   <script>
     requireAuth();
 
+<<<<<<< HEAD
     function loadSettings() {
       const s = getSettings();
       document.getElementById('store-name').value = s.storeName || 'Discount Center';
@@ -242,39 +208,79 @@
       s.address = document.getElementById('store-address').value.trim();
       saveSettings(s);
       toast("Do'kon ma'lumotlari saqlandi");
+=======
+    let currentSettings = {};
+
+    async function loadSettings() {
+      try {
+        currentSettings = await apiSettings.get();
+        document.getElementById('store-name').value = currentSettings.storeName || 'Novus Homme';
+        document.getElementById('store-tagline').value = currentSettings.storeTagline || 'HOMME';
+        document.getElementById('store-email').value = currentSettings.email || '';
+        document.getElementById('store-phone').value = currentSettings.phone || '';
+        document.getElementById('store-address').value = currentSettings.address || '';
+        document.getElementById('shipping-cost').value = currentSettings.shippingCost || 50000;
+        document.getElementById('free-shipping').value = currentSettings.freeShippingThreshold || 500000;
+        document.getElementById('currency').value = currentSettings.currency || 'UZS';
+        document.getElementById('lang').value = currentSettings.lang || 'uz';
+      } catch (err) {
+        toast(err.message || "Sozlamalarni yuklashda xato", 'error');
+      }
     }
 
-    function saveShipping() {
+    async function saveStoreInfo() {
+      try {
+        currentSettings = await apiSettings.update({
+          ...currentSettings,
+          storeName: document.getElementById('store-name').value.trim() || 'Novus Homme',
+          storeTagline: document.getElementById('store-tagline').value.trim() || 'HOMME',
+          email: document.getElementById('store-email').value.trim(),
+          phone: document.getElementById('store-phone').value.trim(),
+          address: document.getElementById('store-address').value.trim(),
+        });
+        toast("Do'kon ma'lumotlari saqlandi");
+      } catch (err) {
+        toast(err.message || 'Xato yuz berdi', 'error');
+      }
+>>>>>>> c69d7d428ea51534d02c27f6f39c98093b26c098
+    }
+
+    async function saveShipping() {
       const cost = parseInt(document.getElementById('shipping-cost').value);
       const free = parseInt(document.getElementById('free-shipping').value);
       if (isNaN(cost) || cost < 0) { toast("To'g'ri narx kiriting", 'error'); return; }
       if (isNaN(free) || free < 0) { toast("To'g'ri chegara kiriting", 'error'); return; }
-      const s = getSettings();
-      s.shippingCost = cost;
-      s.freeShippingThreshold = free;
-      saveSettings(s);
-      toast("Yetkazib berish sozlamalari saqlandi");
+      try {
+        currentSettings = await apiSettings.update({ ...currentSettings, shippingCost: cost, freeShippingThreshold: free });
+        toast("Yetkazib berish sozlamalari saqlandi");
+      } catch (err) {
+        toast(err.message || 'Xato yuz berdi', 'error');
+      }
     }
 
-    function saveRegional() {
-      const s = getSettings();
-      s.currency = document.getElementById('currency').value;
-      s.lang = document.getElementById('lang').value;
-      saveSettings(s);
-      toast("Mintaqa sozlamalari saqlandi");
+    async function saveRegional() {
+      try {
+        currentSettings = await apiSettings.update({
+          ...currentSettings,
+          currency: document.getElementById('currency').value,
+          lang: document.getElementById('lang').value,
+        });
+        toast("Mintaqa sozlamalari saqlandi");
+      } catch (err) {
+        toast(err.message || 'Xato yuz berdi', 'error');
+      }
     }
 
-    function changePassword() {
+    async function changePassword() {
       const current = document.getElementById('current-pw').value;
       const newPw = document.getElementById('new-pw').value;
       const confirm = document.getElementById('confirm-pw').value;
-      const s = getSettings();
 
       if (!current) { toast("Joriy parolni kiriting", 'error'); return; }
-      if (current !== s.adminPassword) { toast("Joriy parol noto'g'ri", 'error'); return; }
       if (!newPw || newPw.length < 6) { toast("Yangi parol kamida 6 belgidan iborat bo'lishi kerak", 'error'); return; }
       if (newPw !== confirm) { toast("Parollar mos kelmadi", 'error'); return; }
 
+<<<<<<< HEAD
       s.adminPassword = newPw;
       saveSettings(s);
       document.getElementById('current-pw').value = '';
@@ -345,9 +351,17 @@
         if (localStorage.hasOwnProperty(k)) {
           total += (localStorage[k].length + k.length) * 2;
         }
+=======
+      try {
+        await apiSettings.changePassword(current, newPw);
+        document.getElementById('current-pw').value = '';
+        document.getElementById('new-pw').value = '';
+        document.getElementById('confirm-pw').value = '';
+        toast("Parol muvaffaqiyatli o'zgartirildi");
+      } catch (err) {
+        toast(err.message || 'Xato yuz berdi', 'error');
+>>>>>>> c69d7d428ea51534d02c27f6f39c98093b26c098
       }
-      const kb = (total / 1024).toFixed(1);
-      document.getElementById('storage-size').textContent = `${kb} KB / ~5 MB`;
     }
 
     loadSettings();

@@ -3,6 +3,7 @@
 //  Shared state, storage helpers, and UI utilities
 // ============================================================
 
+<<<<<<< HEAD
 // ---- Storage keys ----
 const KEYS = {
   products:   'nh_products',
@@ -95,6 +96,8 @@ function syncStoreProducts(products) {
   setData(KEYS.categories, cats);
 }
 
+=======
+>>>>>>> c69d7d428ea51534d02c27f6f39c98093b26c098
 // ---- Format helpers ----
 function fmt(n) { return new Intl.NumberFormat('uz-UZ').format(n) + ' UZS'; }
 function fmtDate(d) {
@@ -130,7 +133,7 @@ function stockBadge(n) {
 }
 
 // ---- Auth ----
-function isLoggedIn() { return apiIsLoggedIn() || sessionStorage.getItem('nh_admin_auth') === '1'; }
+function isLoggedIn() { return apiIsLoggedIn(); }
 function requireAuth() {
   if (!isLoggedIn()) { window.location.href = 'login.html'; }
 }
@@ -177,8 +180,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   // update order count badge
-  const orders = getOrders();
-  const pending = orders.filter(o => o.status === 'pending').length;
   const badge = document.getElementById('order-badge');
-  if (badge && pending > 0) { badge.textContent = pending; badge.classList.remove('hidden'); }
+  if (badge && isLoggedIn()) {
+    apiOrders.getAll('pending').then(orders => {
+      if (orders.length > 0) { badge.textContent = orders.length; badge.classList.remove('hidden'); }
+    }).catch(() => {});
+  }
 });

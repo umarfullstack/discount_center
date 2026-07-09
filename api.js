@@ -28,7 +28,6 @@ async function apiLogin(email, password) {
 
 function apiLogout() {
   sessionStorage.removeItem('nh_token');
-  sessionStorage.removeItem('nh_admin_auth');
 }
 
 function apiIsLoggedIn() { return !!getToken(); }
@@ -66,4 +65,12 @@ const apiPromos = {
   create:  (data)         => apiFetch('/promos', { method: 'POST', body: JSON.stringify(data) }),
   update:  (id, d)        => apiFetch(`/promos/${id}`, { method: 'PUT', body: JSON.stringify(d) }),
   remove:  (id)           => apiFetch(`/promos/${id}`, { method: 'DELETE' }),
+};
+
+// ---- Settings ----
+const apiSettings = {
+  getPublic:      ()   => apiFetch('/settings/public'),
+  get:            ()   => apiFetch('/settings'),
+  update:         (d)  => apiFetch('/settings', { method: 'PUT', body: JSON.stringify(d) }),
+  changePassword: (currentPassword, newPassword) => apiFetch('/settings/password', { method: 'PUT', body: JSON.stringify({ currentPassword, newPassword }) }),
 };

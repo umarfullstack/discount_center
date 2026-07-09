@@ -74,7 +74,6 @@
       errEl.classList.add('hidden');
       try {
         await apiLogin(email, password);
-        sessionStorage.setItem('nh_admin_auth', '1');
         window.location.href = 'index.html';
       } catch(err) {
         const settings = getSettings();
