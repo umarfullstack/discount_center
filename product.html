@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mahsulot — Novus Homme</title>
+  <meta name="description" content="Novus Homme — zamonaviy erkaklar kiyimlari. Mahsulot haqida to'liq ma'lumot, narx va yetkazib berish shartlari." />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="product" />
+  <meta property="og:site_name" content="Novus Homme" />
+  <meta property="og:locale" content="uz_UZ" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -295,6 +300,62 @@
       "https://images.unsplash.com/photo-1589270216117-7972b3082c7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=600",
     ];
 
+    // ---- SEO ----
+    function updateSeo(p) {
+      const url = `https://discountcenter.uz/product.html?id=${encodeURIComponent(p.id)}`;
+      const desc = (p.description || `${p.name} — Novus Homme onlayn do'konida chegirmali narxda.`).slice(0, 160);
+
+      document.title = `${p.name} — Novus Homme`;
+      document.querySelector('meta[name="description"]').setAttribute('content', desc);
+
+      function setMeta(attr, key, val) {
+        let el = document.querySelector(`meta[${attr}="${key}"]`);
+        if (!el) {
+          el = document.createElement('meta');
+          el.setAttribute(attr, key);
+          document.head.appendChild(el);
+        }
+        el.setAttribute('content', val);
+      }
+      setMeta('property', 'og:title', `${p.name} — Novus Homme`);
+      setMeta('property', 'og:description', desc);
+      setMeta('property', 'og:url', url);
+      if (p.image) setMeta('property', 'og:image', p.image);
+
+      let canonical = document.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = document.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        document.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', url);
+
+      const ld = document.createElement('script');
+      ld.type = 'application/ld+json';
+      ld.textContent = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Product',
+        name: p.name,
+        description: desc,
+        image: p.image ? [p.image] : undefined,
+        url: url,
+        brand: { '@type': 'Brand', name: 'Novus Homme' },
+        aggregateRating: p.rating && p.reviewCount ? {
+          '@type': 'AggregateRating',
+          ratingValue: p.rating,
+          reviewCount: p.reviewCount
+        } : undefined,
+        offers: {
+          '@type': 'Offer',
+          price: p.price,
+          priceCurrency: 'UZS',
+          availability: 'https://schema.org/InStock',
+          url: url
+        }
+      });
+      document.head.appendChild(ld);
+    }
+
     // ---- Load product ----
     const params = new URLSearchParams(window.location.search);
     const id = params.get('id');
@@ -311,6 +372,7 @@
     function initProduct(p) {
       product = p;
       _productCache[p.id] = p;
+      updateSeo(p);
       allImages.length = 0;
       allImages.push(p.image, ...extraImages);
       selectedColor = p.colors?.[0] || '';

@@ -1,6 +1,6 @@
 // ---- Markaziy API ulanish moduli ----
 const IS_DEV = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
-const API = IS_DEV ? 'http://localhost:3001/api' : 'https://novus-homme-api.fly.dev/api';
+const API = IS_DEV ? 'http://localhost:3001/api' : 'https://novus-homme-api.onrender.com/api';
 
 function getToken() { return sessionStorage.getItem('nh_token'); }
 
