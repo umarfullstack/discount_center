@@ -11,6 +11,7 @@ const settingsRoutes = require('./routes/settings');
 
 const app = express();
 app.use(cors());
+// Rasm base64 ko'rinishida JSON ichida keladi — standart 100kb limit yetmaydi
 app.use(express.json({ limit: '15mb' }));
 
 app.get('/', (req, res) => res.json({ status: 'ok' }));
