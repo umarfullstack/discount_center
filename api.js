@@ -10,8 +10,17 @@ async function apiFetch(path, options = {}) {
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
   const res = await fetch(API + path, { ...options, headers });
-  const data = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(data.error || 'Server xatosi');
+  const text = await res.text();
+  let data = {};
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = {};
+  }
+  if (!res.ok) {
+    if (res.status === 413) throw new Error('Rasm juda katta. Kichikroq rasm tanlang.');
+    throw new Error(data.error || `Server xatosi (${res.status})`);
+  }
   return data;
 }
 

@@ -63,14 +63,14 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', requireAuth, async (req, res) => {
-  const data = productDataFromBody(req.body);
-  const error = validateProductData(data);
-  if (error) return res.status(400).json({ error });
-
-  const category = await prisma.category.findUnique({ where: { id: data.categoryId } });
-  if (!category) return res.status(400).json({ error: 'Kategoriya topilmadi' });
-
   try {
+    const data = productDataFromBody(req.body);
+    const error = validateProductData(data);
+    if (error) return res.status(400).json({ error });
+
+    const category = await prisma.category.findUnique({ where: { id: data.categoryId } });
+    if (!category) return res.status(400).json({ error: 'Kategoriya topilmadi' });
+
     const product = await prisma.product.create({ data });
     res.status(201).json(product);
   } catch (err) {
@@ -80,21 +80,22 @@ router.post('/', requireAuth, async (req, res) => {
 });
 
 router.put('/:id', requireAuth, async (req, res) => {
-  const data = productDataFromBody(req.body);
-  const error = validateProductData(data);
-  if (error) return res.status(400).json({ error });
-
-  const category = await prisma.category.findUnique({ where: { id: data.categoryId } });
-  if (!category) return res.status(400).json({ error: 'Kategoriya topilmadi' });
-
   try {
+    const data = productDataFromBody(req.body);
+    const error = validateProductData(data);
+    if (error) return res.status(400).json({ error });
+
+    const category = await prisma.category.findUnique({ where: { id: data.categoryId } });
+    if (!category) return res.status(400).json({ error: 'Kategoriya topilmadi' });
+
     const product = await prisma.product.update({
       where: { id: req.params.id },
       data,
     });
     res.json(product);
-  } catch {
-    res.status(404).json({ error: 'Mahsulot topilmadi' });
+  } catch (err) {
+    console.error('Product update error:', err);
+    res.status(500).json({ error: 'Mahsulotni saqlashda xato yuz berdi' });
   }
 });
 
