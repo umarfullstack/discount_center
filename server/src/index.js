@@ -11,7 +11,7 @@ const settingsRoutes = require('./routes/settings');
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '15mb' }));
 
 app.get('/', (req, res) => res.json({ status: 'ok' }));
 
@@ -21,6 +21,17 @@ app.use('/api/categories', categoryRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/promos', promoRoutes);
 app.use('/api/settings', settingsRoutes);
+
+app.use((err, req, res, next) => {
+  if (err?.type === 'entity.too.large') {
+    return res.status(413).json({ error: 'Rasm juda katta. Kichikroq rasm tanlang.' });
+  }
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ error: 'JSON formati noto\'g\'ri' });
+  }
+  console.error('Unhandled API error:', err);
+  return res.status(500).json({ error: 'Server xatosi' });
+});
 
 app.use((req, res) => res.status(404).json({ error: 'Topilmadi' }));
 
